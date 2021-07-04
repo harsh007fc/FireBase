@@ -29,8 +29,22 @@ function Demo() {
         setPassword('');
     }
 
-    let handleSignOut = () =>{
+    let handleSignOut = async() =>{
+        try{
+            setLoading(true);
+            let res = await auth.signOut();
+            console.log(res);
+            setUser(null);
+            setLoading(false)
 
+        }
+        catch(e){
+            setError(e.message);
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+            setLoading(false);
+        }
     }
     return (
         <>
@@ -49,7 +63,7 @@ function Demo() {
         </div>:
         <>
         <h2>{user.uid} is Signed in</h2>
-        <button OnClick={handleSignOut}>Sign Out</button>
+        <button onClick={handleSignOut}>Sign Out</button>
         </>
         }
         </>
